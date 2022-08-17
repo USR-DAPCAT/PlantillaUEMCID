@@ -1,0 +1,4 @@
+name: 2_preparacio
+description: >
+   Template::Preparacio dels estudis USR-DAPCAT
+create_dir: FALSE
