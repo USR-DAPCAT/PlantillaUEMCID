@@ -186,7 +186,7 @@ dtagr_variables
 
 
 dt_tabaquisme<-dt_tabaquisme %>% transmute(idp,cod="tabac",dat,val)
-dtagr_tabaquisme<-agregar_analitiques(dt=dt_tabaquisme,bd.dindex=dt_index,finestra.dies = c(-Inf,0))%>%select(-dtindex)
+dtagr_tabaquisme<-agregar_analitiques(dt=dt_tabaquisme,bd.dindex=dt_index,finestra.dies = c(-Inf,0))%>%select(-dtindex,-tabac.dies)
 
 
 

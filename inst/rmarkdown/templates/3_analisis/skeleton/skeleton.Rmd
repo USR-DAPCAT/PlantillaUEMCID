@@ -41,11 +41,11 @@ params:
 **agregacions i part global descriptiva**
 
 
-&check; XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX br/>
+&check; XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX <br/>
  
 **Pendents**
 
-&check; XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX   <br/>
+&check; XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX <br/>
 
 
 ## Fase Preparacio: cataleg+conductor+link_funcions
@@ -84,23 +84,25 @@ conductor_codis<-here::here("CATALEG.xlsx")
 dt_cataleg<-readxl::read_excel(conductor_codis,col_types = "text")%>% select(cod,domini,agr,agr_Farmac,DM2)
 
 #
+#
+#
+#######################################################
+
+
 ```
 
 
 ```{r llegir, include = FALSE}
 # Llegir plana
-
+#
 dades<-readRDS(here::here(params$dir_dades_desti,"dt_plana2.rds")) %>% as_tibble()
-
-
+#
 ```
 
 
 ## Etiquetar_valors_conductor+recodificacions_conductor+missings_conductor+factoritzar.NO.SI
 
 ```{r etiquetes1}
-
-
 
 #dades<-dades%>%mutate(exclusio1=DG.Exclusion)
 dades<-dades%>%mutate(exclusio2=ifelse(dtindex==sortida & situacio!="A",1,0))
@@ -117,8 +119,10 @@ dades<- dades %>% mutate_at(vars(starts_with("EVENT.")), ~if_else(.==1,"Yes","No
 dades<- dades %>% mutate_at(vars(starts_with("FF.")), ~if_else(.==1,"Yes","No",missing = "No")) 
 dades<- dades %>% mutate_at(vars(starts_with("FP.")), ~if_else(.==1,"Yes","No",missing = "No")) 
 
-
-
+#
+#
+#
+#
 #Etquetem  VALORS! de les VAR  a partir del Conductor!
 #dades<-etiquetar_valors(dt=dades,variables_factors=conductor,fulla="etiquetes",camp_etiqueta="etiqueta1")
 
@@ -131,39 +135,27 @@ dades<- dades %>% mutate_at(vars(starts_with("FP.")), ~if_else(.==1,"Yes","No",m
 #dades<-dades %>% refcat(conductor = conductor,ref="refcat")
 
 
-
-
-
-
 ```
 ## 1. Flow chart + Etiquetar_Nom_Variables_conductor
 
 ```{r Flow chart, include=T}
 
+flow_chart1<-criteris_exclusio_diagrama(dt=dt_plana,
+                                        taulavariables=conductor,
+                                        criteris = "exc_pre",
+                                        ordre="exc_ordre",
+                                        grups=NA,
+                                        etiquetes="descripcio",
+                                        sequencial = T,
+                                        pob_lab=c("epiPEUCAT DM2  ","epiPEUCAT DM2 sin exclusiones"),
+                                        colors=c("white","grey"),
+                                        forma=c("ellipse","box"))
 
-
-#flow_chart1<-criteris_exclusio_diagrama(dt=dades,
-#                                        taulavariables=conductor,
-#                                        criteris = "exc_pre",
-#                                        ordre="exc_ordre",
-#                                        grups=NA,
-#                                        etiquetes="descripcio2",
-#                                        sequencial = T,
-#                                        pob_lab=c("epiTempus DM2  ","epiTempus DM2 without exclusions"),
-#                                        colors=c("white","grey"),
-#                                        forma=c("ellipse","box"))
-
-#flow_chart1
+flow_chart1
 
 
 
 
-#Apliquem les EXCLUSIONS!
-#dades<-criteris_exclusio(dades,taulavariables=conductor,criteris="exc_pre")
-
-
-#Etquetem  NOMS! de les  VAR  a partir del Conductor!
-#dades<-etiquetar(dades,taulavariables=conductor,camp_descripcio="descripcio1")
 
 
 

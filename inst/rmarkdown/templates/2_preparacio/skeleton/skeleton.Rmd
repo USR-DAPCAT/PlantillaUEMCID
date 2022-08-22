@@ -155,9 +155,13 @@ dt_plana<-dt_plana %>% mutate(age2.cat=case_when(age<30~ "age<30",
 #                                                      temps_evolucio>=5  ~ 2))
 
 #12)Tabac Categoric.
-#dt_plana<-dt_plana%>% mutate(tabac2=case_when(tabac.valor==0~0,
-#                                              tabac.valor==1~1,
-#                                              tabac.valor==2~0))
+dt_plana<-dt_plana%>% mutate(tabac2=case_when(tabac.valor==0~"1.   No Fumador",
+                                              tabac.valor==1~"2.   Fumador",
+                                              tabac.valor==2~"3.   Exfumador"))
+
+
+
+
 
 ```
 
