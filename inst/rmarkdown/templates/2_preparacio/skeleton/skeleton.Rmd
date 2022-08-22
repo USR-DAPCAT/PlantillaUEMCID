@@ -62,30 +62,40 @@ dt_plana<-readRDS(here::here(params$dir_dades_desti,"dt_plana1.rds")) %>% as_tib
 
 #exemples::
 
+#i)
 #dt_plana<-dt_plana %>% mutate(age=as.numeric(lubridate::ymd(dtindex)-lubridate::ymd(dnaix))/365.25)
 
+#ii)
 #dt_plana<-dt_plana %>% mutate(age2.cat=case_when(age<30~ 1,
 #                                                 age>=30 & age<56 ~ 2,
 #                                                 age>=56 & age<75 ~ 3,
 #                                                 age >=75~ 4 ))
 
+#iii)
 #dt_plana<-dt_plana%>% mutate(age5.cat=cut2(age,seq(20,90,5),right = F))
 
+#iv)
 #dt_plana<-dt_plana%>% mutate(ruralitat=if_else(ruralitat=="","ND",ruralitat))
+
+#v)
 #dt_plana<-dt_plana%>%mutate(DG.NEUROPT2=ifelse(DG.NEUROPT==1,1,0)) 
 
-
+#vi)
 #dt_plana<-dt_plana%>%mutate(temps_evolucio=(ymd(dtindex)-ymd(DG.DM2)),temps_evolucio=round(temps_evolucio/365.25,2)%>% as.numeric()) 
 
+#vii)
 #dt_plana<-dt_plana%>% mutate_at(c("dnaix","entrada","sortida" ),ymd)
 
+#viii)
 #dt_plana<-dt_plana %>%
 #             group_by(idp)%>%mutate(DG.UEIPA.365.ULCERA_PIE=sum(DG.UEIPA.365.ULC_MI_CMBD,
 #                                                                DG.UEIPA.365.ULC_MI_CMBD_NE,
 #                                                                DG.UEIPA.365.ULC_MI,na.rm=T))%>%ungroup()
 
+#ix)
 #dt_plana<-mutate_at(dt_plana, vars( starts_with("INCLUSIO.") ), funs( if_else(.==0  | is.na(.)  ,0,1)))
 
+#x)
 #df <- df %>%
 #      mutate(BPLevel = case_when(Systolic < 120 | Diastolic < 80 ~ "Normal",
 #                                 between(Systolic, 120, 139) | between(Diastolic, 80, 89)~ "Prehypertension",
@@ -93,7 +103,7 @@ dt_plana<-readRDS(here::here(params$dir_dades_desti,"dt_plana1.rds")) %>% as_tib
 #                                 TRUE ~ "Missing"
 #                                 ))
 
-
+#xi)
 #dt_plana<-mutate_at(dt_plana, vars( starts_with("LDL_PP_") ), funs( if_else(.==0  | is.na(.)  ,0,1)))
 
 
