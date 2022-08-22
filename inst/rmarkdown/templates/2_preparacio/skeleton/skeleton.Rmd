@@ -108,6 +108,62 @@ dt_plana<-readRDS(here::here(params$dir_dades_desti,"dt_plana1.rds")) %>% as_tib
 
 
 
+#xii)
+## Calcul de temps DM2
+#dades<-dades %>% mutate(Duracion_DM2 = as.period(interval(start = ymd(DG.DM2), end = ymd(20100101))) %>% time_length("year")) 
+
+#xiii)
+## Farmacs 
+# NA --> 0 (Else=1) (No hi ha 0'0)
+#dades<-dades %>% mutate_at(vars(starts_with("FP.")),
+#                           ~if_else(is.na(.) | .==0,0,1)) 
+
+
+#xiv)
+#dt_temp <- dades %>% mutate(
+#  Num_ADO = rowSums(across(c("FP.SGLT2","FP.IDPP4", "FP.GLP1","FP.AGI","FP.SU","FP.TZD","FP.Metformina")),na.rm = T),
+#  Tractament_AD= case_when(
+#            FP.NIAD==0 & FP.INSULINAS==0 & Num_ADO==0 ~ 0,
+#            Num_ADO==1 & FP.INSULINAS==0 ~ 1,
+#            Num_ADO>=2 & FP.INSULINAS==0 ~ 2,
+#            Num_ADO==0 & FP.INSULINAS==1 ~ 3,
+#            Num_ADO>=1 & FP.INSULINAS==1 ~ 4, 
+#            TRUE ~ 0
+#      )
+#    )
+
+#xv)
+#dades<-dades %>% mutate_at(vars(ends_with(".visita")), 
+#                           ~ifelse(is.na(.) | .==0,0,.) )
+
+
+#xvi)
+# validació
+#dades %>% filter(sexe=="H") %>% group_by(edat_grup2) %>% summarize(n(),min(edat),max(edat)) 
+#dades %>% filter(sexe=="D") %>% group_by(edat_grup2) %>% summarize(n(),min(edat),max(edat)) 
+
+
+#xvii)
+# Recodes
+#dades<-dades %>% 
+#  mutate(any_index=factor(lubridate::year(ymd(dtindex))))
+
+
+#xviii)
+#borrar dades!!
+#rm(temp,dades_regicor,regicor_df)
+
+#xix)
+# Filtrar si hi ha analisis de subgrups
+#if (params$subgrup=="DM2") dades<-dades %>% filter(DG.DM2==1)
+#if (params$subgrup=="DM1") dades<-dades %>% filter(DG.DM1==1)
+
+#xx
+## Data fi de seguiment / Lliure d'esdeveniment (Data d'event / exitus / 20161231): 
+#dades<- dades %>% mutate(datafi=dtevent,
+#                    datafi=ifelse(is.na(datafi) & situacio=="D",sortida,dtevent),
+#                    datafi=ifelse(is.na(datafi),20161231,datafi)) 
+
 
 
 
