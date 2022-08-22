@@ -140,18 +140,24 @@ dades<- dades %>% mutate_at(vars(starts_with("FP.")), ~if_else(.==1,"Yes","No",m
 
 ```{r Flow chart, include=T}
 
-flow_chart1<-criteris_exclusio_diagrama(dt=dt_plana,
-                                        taulavariables=conductor,
-                                        criteris = "exc_pre",
-                                        ordre="exc_ordre",
-                                        grups=NA,
-                                        etiquetes="descripcio",
-                                        sequencial = T,
-                                        pob_lab=c("epiPEUCAT DM2  ","epiPEUCAT DM2 sin exclusiones"),
-                                        colors=c("white","grey"),
-                                        forma=c("ellipse","box"))
+#dades
 
-flow_chart1
+
+
+
+Flowchart<-diagramaFlowchart1G(
+  pob_lab1=c("Pob Initial","Pob Final"),
+  pob1=c(30,length(dades$idp)),
+  exc1=c(30-length(dades$idp)),
+  exc_lab1=c('data_index:31.12.2018 > entrada or data_index:31.12.2018 < sortida  '),
+  colors=c('white','grey'),
+  forma=c('box','box')) 
+        
+  
+
+
+
+Flowchart
 
 
 
