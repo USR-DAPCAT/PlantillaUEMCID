@@ -60,7 +60,9 @@ directori_dades_origen<-params$dir_dades_origen
 dt_cataleg<-readxl::read_excel(conductor_codis,col_types = "text")%>% select(cod,domini,agr,agr_Farmac,DM2)
 #
 #
-
+#
+#
+#
 
 ```
 
