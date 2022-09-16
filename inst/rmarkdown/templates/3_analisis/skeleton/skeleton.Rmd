@@ -1,5 +1,6 @@
 ---
-title: 'Analisis transversal descriptivo . Fecha de corte:  `r params$bd.dindex1`'
+title: "Projecte CANFANGA. Estudi d'associació de la velocitat amb el tocino"
+subtitle: "Informe estadístic"
 author: "Jordi Real & Rai Puig"
 website: "https://github.com/USR-DAPCAT/"
 
@@ -17,8 +18,10 @@ output:
   word_document: default
 
 params:
-  dir_dades_desti: "dades"
-  ANY: '20181231'
+  mostra: yes
+
+bibliography: "references.bib"
+
 ---
 
 &nbsp;
@@ -36,19 +39,18 @@ params:
 
 ****
 
-## 0. Estat:
+# 0. Estat:
 
-**agregacions i part global descriptiva**
+
+**Actualitzacións**
 
 
 &check; XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX <br/>
  
-**Pendents**
+**Fet**
 
 &check; XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX <br/>
 
-
-## Fase Preparacio: cataleg+conductor+link_funcions
 
 
 ```{r setup, include = FALSE}
@@ -60,12 +62,10 @@ options(scipen = 999)
 gc()
 
 
-
-
 #######################################################
 #
 #
-# libreries i funcions
+# libreries i funcions necessaries
 library("dplyr")
 library("lubridate")
 library("compareGroups")
@@ -80,34 +80,155 @@ library("scales")
 link_source<-paste0("https://github.com/jrealgatius/Stat_codis/blob/master/funcions_propies.R","?raw=T")
 devtools::source_url(link_source)
 
-conductor_codis<-here::here("CATALEG.xlsx")
-dt_cataleg<-readxl::read_excel(conductor_codis,col_types = "text")%>% select(cod,domini,agr,agr_Farmac,DM2)
-
-#
-#
-#
-#######################################################
 
 
 ```
 
 
-```{r llegir, include = FALSE}
+```{r estructura_carpetes, eval=FALSE}
+
+# estructura de carpetes: /dades /codi /outputs /docs
+
+# Genero el directori si no existeic
+directori<-paste0("dades")
+if (!file.exists(directori)) {dir.create(file.path(directori), showWarnings = FALSE)}
+  
+directori<-paste0("codi")
+if (!file.exists(directori)) {dir.create(file.path(directori), showWarnings = FALSE)}
+
+directori<-paste0("outputs")
+if (!file.exists(directori)) {dir.create(file.path(directori), showWarnings = FALSE)}
+
+directori<-paste0("docs")
+if (!file.exists(directori)) {dir.create(file.path(directori), showWarnings = FALSE)}
+
+
+```
+
+
+```{r llegirdades, include = FALSE}
 # Llegir plana
 #
-dades<-readRDS(here::here(params$dir_dades_desti,"dt_plana2.rds")) %>% as_tibble()
+
+# Exemples de lectura de dades diferents tipus
+
+# path_dades<-here::here("dades","nom_fitxer")
+# 
+# # Opcions per obrir un fitxer
+# dades<-readRDS(path_dades)
+# dades<-readxl::read_excel(path_dades)
+# dades<-data.table::fread(path_dades)
+# dades<-foreign::read.spss(path_dades,use.value.labels = T,to.data.frame = T,...)
+# dades<-read_conductor(path_dades)
+
+
+dades<-iris
+
 #
+
 ```
 
 
-## Etiquetar_valors_conductor+recodificacions_conductor+missings_conductor+factoritzar.NO.SI
+# Objectius
 
-```{r etiquetes1}
+## Objectiu general
 
-#dades<-dades%>%mutate(exclusio1=DG.Exclusion)
-dades<-dades%>%mutate(exclusio2=ifelse(dtindex==sortida & situacio!="A",1,0))
+Avaluar l'efectivitat  de diversos programes de sensibilització, alfabetització i estigma en salut mental portats a terme per infermers/es del "Programa Salut i Escola (SiE)" d’Atenció Primària i l’especialitzada en salut mental en l’augment de coneixements en salut mental i reducció de l'estigma en joves escolaritzats que cursen Estudis Secundaris Obligatoris (ESO)
 
-dades<-mutate_at(dades, vars( starts_with("exclusio") ), funs( if_else(.==0  | is.na(.)  ,0,1)))
+
+## Especifics 
+
+1 Avaluar l’efectivitat dels programes PS, PASM i PASM+RE per aconseguir una modificació en:
+
+- Coneixements en salut mental als 6 i 12 mesos de seguiment. 
+- Estigma en salut mental  als 6 i 12 mesos de seguiment.
+- Cerca d'ajuda als 6 i 12 mesos de seguiment.
+- Ús de serveis sanitaris als 6 i 12 mesos de seguiment 
+- Símptomes mentals i en l'augment de la salut mental positiva als 6 i 12 mesos de seguiment.  
+- Qualitat de vida als 6 i 12 mesos de seguiment.  
+- Reducció de les conductes d'Assetjament Escolar i Internet als 6 i 12 mesos de seguiment.  
+- Intenció de canvi d'un problema de salut mental als 6 i 12 mesos de seguiment.
+
+
+***
+
+
+# Mètode 
+
+
+## Disseny: 
+
+Estudi observacional transversal
+
+
+## Analisis estadístic: 
+
+Se ha realizado un analisis estadístico descriptivo resumiendo los parámetros cuantitativos con la media y su desviación típica, y las variables cualitativas con la frequencia y su porcentaje. 
+Para evaluar la evolución de cada unos de los parámetros durante las visitas de seguimiento por grupos se realizaron  modelos de efectos mixtos, (Fit Linear Mixed-Effects Models) usando el paquete lme4 de R [@R-lme4; @lme42015] .
+Se consideró como estadísticamente significativo p valores inferiores a 0.05 sin usar la corrección por comparaciones multiples. El analisis estadístico se realizó con el paquete estadístico R[@R-base]
+
+
+
+```{r citacions, include=FALSE, message=FALSE}
+
+
+knitr::write_bib(c("lme4","base", "ggplot2","stats", "effectsize"),file="references.bib")
+# 
+# library(bibtex)
+# 
+# # install.packages("bibtex")
+# 
+# refs<-read.bib("references.bib")
+# 
+# keys <- names(refs)
+# 
+# keys
+
+
+```
+
+
+
+
+```{r recodes_varis}
+
+
+```
+
+
+```{r filtres1}
+
+
+```
+
+
+
+```{r flowchart, include=TRUE,eval=TRUE}
+
+
+dades %>% 
+  ggflowchart::Flow_chart_Consort(
+    exclusions = c("Species=='setosa'","Petal.Length>6"),
+    lab_exclusions = c("Specie setona", "Llargada Petal >5"))
+
+
+
+
+
+```
+
+
+```{r filtres2}
+
+
+```
+
+
+
+
+
+
+```{r recodes, eval=FALSE}
 
 
 #Recodificar automaticament a partir del Conductor!
@@ -119,10 +240,7 @@ dades<- dades %>% mutate_at(vars(starts_with("EVENT.")), ~if_else(.==1,"Yes","No
 dades<- dades %>% mutate_at(vars(starts_with("FF.")), ~if_else(.==1,"Yes","No",missing = "No")) 
 dades<- dades %>% mutate_at(vars(starts_with("FP.")), ~if_else(.==1,"Yes","No",missing = "No")) 
 
-#
-#
-#
-#
+
 #Etquetem  VALORS! de les VAR  a partir del Conductor!
 #dades<-etiquetar_valors(dt=dades,variables_factors=conductor,fulla="etiquetes",camp_etiqueta="etiqueta1")
 
@@ -136,40 +254,19 @@ dades<- dades %>% mutate_at(vars(starts_with("FP.")), ~if_else(.==1,"Yes","No",m
 
 
 ```
-## 1. Flow chart + Etiquetar_Nom_Variables_conductor
-
-```{r Flow chart, include=T}
-
-#dades
 
 
 
-
-Flowchart<-diagramaFlowchart1G(
-  pob_lab1=c("Pob Initial","Pob Final"),
-  pob1=c(30,length(dades$idp)),
-  exc1=c(30-length(dades$idp)),
-  exc_lab1=c('data_index:31.12.2018 > entrada or data_index:31.12.2018 < sortida  '),
-  colors=c('white','grey'),
-  forma=c('box','box')) 
-        
-  
-
-
-
-Flowchart
-
-
-
-
-
+```{r etiquetes}
 
 
 ```
 
 
 
-## 2. Descriptiva Exploratoria General. Todas las variables.
+# Resultats
+
+
 
 
 # Títol de primer nivell
@@ -181,20 +278,74 @@ Flowchart
 L'equacio seria $e=mc^2$
 
 
-
-```{r descrTable General:resultats1, include=T}
-
+## Exploratoria General de totes les variables.
 
 
+```{r Descriptiu_exploratori, include=T}
 
-descrTable(DG.DM2~., dades,method = 2,Q1=0,Q3=1,extra.labels = c("","","")) %>% export2md()
 
+compareGroups::descrTable(dades,method = 2,Q1=0,Q3=1,extra.labels = c("","","")) %>% export2md()
+
+table1::table1(~ .,dades)
+
+gtsummary::tbl_summary(dades)
+
+
+# gtsummary::tbl_summary(dades, 
+#                        type = all_continuous() ~ "continuous2",
+#                        statistic = all_continuous() ~ c("{median} ({p25}, {p75})", "{min}, {max}"))
+# 
+# 
+
+```
+
+```{r, include=T}
+
+
+gtsummary::trial %>% gtsummary::tbl_summary()
 
 
 
 ```
 
 
+```{r, include=TRUE, eval=FALSE}
+
+
+gtsummary::trial %>%
+  select(age, marker) %>%
+  gtsummary::tbl_summary(
+    type = all_continuous() ~ "continuous2",
+    statistic = all_continuous() ~ c("{median} ({p25}, {p75})", "{min}, {max}"),
+    missing = "no"
+  )
+
+```
+
+
+## Descriptiu
+
+```{r analisis_pergrups}
+
+
+
+```
+
+## Models estadistics
+
+```{r models_estadistics}
+
+
+```
+
+## Figures
+
+```{r}
+
+
+```
+
+# References
 
 ```
 &nbsp;
