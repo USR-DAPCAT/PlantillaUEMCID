@@ -9,14 +9,11 @@ date: "`r format(Sys.time(), '%d %B, %Y')`"
 
 output:
   html_document:
-    df_print: paged
     toc: true
     toc_float: true
     fig_caption: true
     css: logos_css/usr_styles.css
-  pdf_document: default
-  word_document: default
-
+    
 params:
   mostra: yes
 
@@ -54,12 +51,10 @@ bibliography: "references.bib"
 
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE, include=F,size="huge")
+knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE, include=T,size="huge")
 
 # Notació no cientifica dels numeros
-options(scipen = 999)
-
-gc()
+# options(scipen = 999)
 
 
 #######################################################
@@ -69,11 +64,12 @@ gc()
 library("dplyr")
 library("lubridate")
 library("compareGroups")
-library("sjPlot")
-library("tableone")
+library("gtsummary")
+# library("sjPlot")
+# library("tableone")
 library("magrittr")
 library("ggplot2")
-library("scales")
+# library("scales")
 #
 #
 # Descarregar funcions github -
@@ -203,6 +199,7 @@ knitr::write_bib(c("lme4","base", "ggplot2","stats", "effectsize"),file="referen
 
 
 
+
 ```{r flowchart, include=TRUE,eval=TRUE}
 
 
@@ -281,44 +278,20 @@ L'equacio seria $e=mc^2$
 ## Exploratoria General de totes les variables.
 
 
-```{r Descriptiu_exploratori, include=T}
+```{r Descriptiu_exploratori, include=TRUE}
 
 
 compareGroups::descrTable(dades,method = 2,Q1=0,Q3=1,extra.labels = c("","","")) %>% export2md()
 
 table1::table1(~ .,dades)
 
-gtsummary::tbl_summary(dades)
+# gtsummary::tbl_summary(dades)
+
+gtsummary::tbl_summary(dades,
+                       type = all_continuous() ~ "continuous2",
+                       statistic = all_continuous() ~ c("{median} ({p25}, {p75})", "{min}, {max}"))
 
 
-# gtsummary::tbl_summary(dades, 
-#                        type = all_continuous() ~ "continuous2",
-#                        statistic = all_continuous() ~ c("{median} ({p25}, {p75})", "{min}, {max}"))
-# 
-# 
-
-```
-
-```{r, include=T}
-
-
-gtsummary::trial %>% gtsummary::tbl_summary()
-
-
-
-```
-
-
-```{r, include=TRUE, eval=FALSE}
-
-
-gtsummary::trial %>%
-  select(age, marker) %>%
-  gtsummary::tbl_summary(
-    type = all_continuous() ~ "continuous2",
-    statistic = all_continuous() ~ c("{median} ({p25}, {p75})", "{min}, {max}"),
-    missing = "no"
-  )
 
 ```
 
