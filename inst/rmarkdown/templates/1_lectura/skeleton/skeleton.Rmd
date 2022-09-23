@@ -66,6 +66,27 @@ dt_cataleg<-readxl::read_excel(conductor_codis,col_types = "text")%>% select(cod
 
 ```
 
+```{r estructura_carpetes, eval=FALSE}
+
+# estructura de carpetes: /dades /codi /outputs /docs
+
+# Genero el directori si no existeic
+directori<-paste0("dades")
+if (!file.exists(directori)) {dir.create(file.path(directori), showWarnings = FALSE)}
+  
+directori<-paste0("codi")
+if (!file.exists(directori)) {dir.create(file.path(directori), showWarnings = FALSE)}
+
+directori<-paste0("outputs")
+if (!file.exists(directori)) {dir.create(file.path(directori), showWarnings = FALSE)}
+
+directori<-paste0("docs")
+if (!file.exists(directori)) {dir.create(file.path(directori), showWarnings = FALSE)}
+
+
+```
+
+
 ## 1. Lectura previa DataIndex 
 
 ```{r lectura1, include=T}
